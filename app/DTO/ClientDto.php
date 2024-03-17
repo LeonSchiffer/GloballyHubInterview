@@ -7,6 +7,17 @@ use Illuminate\Support\Str;
 
 class ClientDto
 {
+    const GENDERS = [
+        "male" => "m",
+        "female" => "f",
+        "others" => "o"
+    ];
+
+    const PREFERRED_CONTACT_MODE = [
+        "phone",
+        "contact"
+    ];
+
     public static function getFilePath()
     {
         return storage_path("app/client.csv");

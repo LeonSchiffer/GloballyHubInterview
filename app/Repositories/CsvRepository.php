@@ -15,7 +15,6 @@ class CsvRepository implements SpreadsheetInterface
         $sheet = $spreadsheet->getActiveSheet();
         $highest_row = $sheet->getHighestRow();
         $current_row = ($highest_row == 1) ? $highest_row : ++$highest_row;
-        dump($current_row);
         $sheet->insertNewRowBefore($current_row);
         foreach ($data as $coordinate => $value) {
             $sheet->setCellValue($coordinate . $current_row, $value);
