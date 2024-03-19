@@ -5,20 +5,34 @@ namespace App\DTO;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
-class ClientDto
+class ClientDto extends ExcelDto
 {
     const GENDERS = [
-        "male" => "m",
-        "female" => "f",
-        "others" => "o"
+        "Male",
+        "Female",
+        "Others",
     ];
 
     const PREFERRED_CONTACT_MODE = [
-        "phone",
-        "contact"
+        "Phone",
+        "Email"
     ];
 
-    public static function getFilePath()
+    private $excel_column_key_pair = [
+        "A" => "ulid",
+        "B" => "name",
+        "C" => "gender",
+        "D" => "phone",
+        "E" => "email",
+        "F" => "address",
+        "G" => "nationality",
+        "H" => "dob",
+        "I" => "education_background",
+        "J" => "preferred_contact_mode",
+        "K" => "created_at",
+    ];
+
+    public static function getFilePath(): string
     {
         return storage_path("app/client.csv");
     }
@@ -32,9 +46,9 @@ class ClientDto
         public string $address,
         public string $nationality,
         public string $dob,
-        public string $educational_background,
-        public string $preferred_contact_mode,
-        public Carbon $created_at
+        public string $education_background,
+        public ?string $preferred_contact_mode,
+        public string $created_at
     )
     {
 
@@ -51,9 +65,9 @@ class ClientDto
             $data["address"],
             $data["nationality"],
             $data["dob"],
-            $data["educational_background"],
-            $data["preferred_contact_mode"],
-            now()
+            $data["education_background"],
+            $data["preferred_contact_mode"] ?? "",
+            now()->format("Y-m-d H:i:s")
         );
     }
 
@@ -68,9 +82,14 @@ class ClientDto
             "F" => $this->address,
             "G" => $this->nationality,
             "H" => $this->dob,
-            "I" => $this->educational_background,
+            "I" => $this->education_background,
             "J" => $this->preferred_contact_mode,
             "K" => $this->created_at,
         ];
+    }
+
+    public static function fromRow(array $row)
+    {
+        return new self(...$row);
     }
 }

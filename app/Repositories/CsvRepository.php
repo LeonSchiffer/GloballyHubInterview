@@ -24,4 +24,9 @@ class CsvRepository implements SpreadsheetInterface
         $writer->save($file_path);
         return true;
     }
+
+    public function getData()
+    {
+        
+    }
 }

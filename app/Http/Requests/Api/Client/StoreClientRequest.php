@@ -18,13 +18,13 @@ class StoreClientRequest extends BaseRequest
     {
         return [
             "name" => ["required"],
-            "gender" => ["required", Rule::in(array_keys(ClientDto::GENDERS))],
+            "gender" => ["required", Rule::in(ClientDto::GENDERS)],
             "phone" => ["required"],
             "email" => ["required", "email"],
             "address" => ["required"],
             "nationality" => ["required"],
-            "dob" => ["required", "date"],
-            "educational_background" => ["required"],
+            "dob" => ["required", "date", "before: 10 years ago"],
+            "education_background" => ["required"],
             "preferred_contact_mode" => ["nullable", Rule::in(ClientDto::PREFERRED_CONTACT_MODE)],
         ];
     }
@@ -33,7 +33,15 @@ class StoreClientRequest extends BaseRequest
     {
         return [
             "gender.in" => "Gender can only be " . implode(", ", array_keys(ClientDto::GENDERS)),
+            "dob.before" => "You must be alteast 10 years old",
             "preferred_contact_mode.in" => "Preferred contact mode can only be " . implode(", ", ClientDto::PREFERRED_CONTACT_MODE)
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            "dob" => "date of birth"
         ];
     }
 }

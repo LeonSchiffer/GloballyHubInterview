@@ -1,7 +1,9 @@
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import "/resources/css/main.css"
+import "/resources/css/main.css";
+import { sendPostRequest } from '@/Helpers/api';
+import { toastError, toastSuccess } from '@/Helpers/toast';
 </script>
 
 <template>
@@ -18,69 +20,104 @@ import "/resources/css/main.css"
             <!-- <link rel="stylesheet" href="css/main.css"> -->
             <div class="row">
                 <div class="col-md-12">
-                    <form action="index.html" method="post">
+                    <form @submit="createClient">
                         <h1> Sign Up </h1>
 
                         <fieldset>
 
                             <legend><span class="number">1</span> Your Basic Info</legend>
 
-                            <label for="name">Name:</label>
-                            <input type="text" id="name" name="user_name">
+                            <div class="form-input-container">
+                                <label for="name">Name:</label>
+                                <input type="text" v-model="client.name" id="name">
+                                <small>{{ validation_errors.name }}</small>
+                            </div>
 
-                            <label for="email">Email:</label>
-                            <input type="email" id="mail" name="user_email">
+                            <div class="form-input-container">
+                                <label for="email">Email:</label>
+                                <input type="email" id="mail" v-model="client.email">
+                                <small>{{ validation_errors.email }}</small>
+                            </div>
 
-                            <label for="phone">Phone:</label>
-                            <input type="text" id="phone" name="phone">
+                            <div class="form-input-container">
+                                <label for="phone">Phone:</label>
+                                <input type="text" id="phone" name="phone" v-model="client.phone">
+                                <small>{{ validation_errors.phone }}</small>
+                            </div>
 
-                            <label>Gender:</label>
-                            <div class="radio_container">
-                                <div>
-                                    <input type="radio" id="male" value="male" name="user_age"><label
-                                        for="male" class="light">Male</label>
+
+                            <div class="form-input-container">
+                                <label>Gender:</label>
+                                <div class="radio_container">
+                                    <div>
+                                        <input type="radio" id="male" value="Male" v-model="client.gender"><label
+                                            for="male" class="light">Male</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" id="female" value="Female" v-model="client.gender"><label
+                                            for="female" class="light">Female</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" id="Other" value="Other" v-model="client.gender"><label
+                                            for="Other" class="light">Others</label>
+                                    </div>
                                 </div>
-                                <div>
-                                    <input type="radio" id="Female" value="Female" name="user_age"><label
-                                        for="Female" class="light">Female</label>
-                                </div>
-                                <div>
-                                    <input type="radio" id="Other" value="Other" name="user_age"><label
-                                        for="Other" class="light">Other</label>
+                                <small>{{ validation_errors.gender }}</small>
+                            </div>
+
+
+                            <div class="form-input-container">
+                                <label for="address">Address:</label>
+                                <input type="text" id="address" v-model="client.address">
+                                <small>{{ validation_errors.address }}</small>
+                            </div>
+
+                            <div class="form-input-container">
+                                <div class="form-input-container">
+                                    <label for="nationality">Nationality:</label>
+                                    <select v-model="client.nationality" id="nationality">
+                                        <option value="Nepal">Nepal</option>
+                                        <option value="India">India</option>
+                                        <option value="China">China</option>
+                                    </select>
+                                    <small>{{ validation_errors.nationality }}</small>
                                 </div>
                             </div>
 
-                            <label for="address">Address:</label>
-                            <input type="text" id="address" name="address">
-
-                            <label for="nationality">Nationality:</label>
-                            <select name="nationality" id="nationality">
-                                <option value="Nepal">Nepal</option>
-                                <option value="India">India</option>
-                                <option value="China">China</option>
-                            </select>
-
-                            <label for="dob">Date of birth:</label>
-                            <input type="date" id="dob" name="dob">
-
-                            <label for="education_background">Education Background:</label>
-                            <input type="text" id="education_background" name="education_background">
-
-                            <label>Preferred mode of contact:</label>
-                            <div class="radio_container">
-                                <div>
-                                    <input type="radio" id="phone" value="phone" name="preferred_contact_mode"><label
-                                        for="phone" class="light">Phone</label>
-                                </div>
-                                <div>
-                                    <input type="radio" id="email" value="email" name="preferred_contact_mode"><label
-                                        for="email" class="light">Email</label>
-                                </div>
-                                <div>
-                                    <input type="radio" id="none" value="none" name="preferred_contact_mode"><label
-                                        for="none" class="light">None</label>
-                                </div>
+                            <div class="form-input-container">
+                                <label for="dob">Date of birth:</label>
+                                <input type="date" id="dob" v-model="client.dob">
+                                <small>{{ validation_errors.dob }}</small>
                             </div>
+
+
+                            <div class="form-input-container">
+                                <label for="education_background">Education Background:</label>
+                                <input type="text" id="education_background" v-model="client.education_background">
+                                <small>{{ validation_errors.education_background }}</small>
+                            </div>
+
+                            <div class="form-input-container">
+                                <label>Preferred mode of contact:</label>
+                                <div class="radio_container">
+                                    <div>
+                                        <input type="radio" id="phone" value="Phone"
+                                            v-model="client.preferred_contact_mode"><label for="phone"
+                                            class="light">Phone</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" id="email" value="Email"
+                                            v-model="client.preferred_contact_mode"><label for="email"
+                                            class="light">Email</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" id="none" v-model="client.preferred_contact_mode"><label
+                                            for="none" class="light">None</label>
+                                    </div>
+                                </div>
+                                <small>{{ validation_errors.preferred_contact_mode }}</small>
+                            </div>
+
                         </fieldset>
                         <!-- <fieldset>
 
@@ -122,7 +159,7 @@ import "/resources/css/main.css"
 
                         </fieldset> -->
 
-                        <button type="submit">Sign Up</button>
+                        <button class="button-success" type="submit">Sign Up</button>
 
                     </form>
                 </div>
@@ -130,3 +167,49 @@ import "/resources/css/main.css"
         </div>
     </GuestLayout>
 </template>
+
+<script>
+export default {
+    name: "CreateClient",
+    data() {
+        return {
+            client: {},
+            validation_errors: {}
+        }
+    },
+    methods: {
+        createClient(e) {
+            e.preventDefault()
+            sendPostRequest("/api/v1/clients", this.client)
+                .then(response => {
+                    console.log(response.data)
+                    this.resetClient()
+                    this.validation_errors = {}
+                    toastSuccess(response.data.message)
+                })
+                .catch(ex => {
+                    if (ex.response.status == 422) {
+                        this.validation_errors = ex.response.data.errors
+                        return;
+                    }
+
+                    console.log(ex.response)
+                    toastError("Could not save client info!")
+                });
+        },
+        resetClient() {
+            this.client = {
+                name: "",
+                email: "",
+                phone: "",
+                gender: "",
+                address: "",
+                nationality: "",
+                dob: "",
+                education_background: "",
+                preferred_contact_mode: "",
+            }
+        }
+    }
+}
+</script>
