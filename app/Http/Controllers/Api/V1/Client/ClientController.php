@@ -22,7 +22,10 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return  ["data" => ClientDto::all()];
+        return  ClientDto::all(
+            request()->query("limit", 15),
+            request()->query("page", 1)
+        );
     }
     // public function index()
     // {

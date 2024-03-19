@@ -241,12 +241,24 @@ tr:last-of-type td:last-child {
     box-shadow: inset -1px -1px 0 #fff;
 }
 
-tbody:hover td {
+/* tbody:hover td {
     color: transparent;
     text-shadow: 0 0 3px #aaa;
-}
+} */
 
 tbody:hover tr:hover td {
     color: #444;
     text-shadow: 0 1px 0 #fff;
+}
+
+.per_page_container {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    float:right;
+}
+.per_page_container input {
+    width: 80px;
+    height: 20px;
+    margin-bottom: 5px;
 }
