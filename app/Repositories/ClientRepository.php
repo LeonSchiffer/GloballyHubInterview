@@ -15,6 +15,6 @@ class ClientRepository implements ClientRepositoryInterface
 
     public function store(ClientDto $client)
     {
-        $this->spreadsheet->addRow($client->toCsv(), ClientDto::getFilePath());
+        $this->spreadsheet->addRow($client->toCsv(), ClientDto::getFileName());
     }
 }
