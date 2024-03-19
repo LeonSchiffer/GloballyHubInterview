@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use App\DTO\ExcelDto;
+use App\Exceptions\Excel\InvalidExcelDriver;
+use App\Repositories\CsvRepository;
+use App\Repositories\XlsxRepository;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Reader\BaseReader;
 use PhpOffice\PhpSpreadsheet\Writer\BaseWriter;
@@ -43,5 +46,14 @@ class WorksheetService
             /** @var ExcelDto $excel_dto_class */
             $excel_dto_class::migrateFile();
         }
+    }
+
+    public static function getRepositoryNameByDriver()
+    {
+        return match (config("app.excel_driver")) {
+            "csv" => CsvRepository::class,
+            "xlsx" => XlsxRepository::class,
+            default => throw new InvalidExcelDriver
+        };
     }
 }

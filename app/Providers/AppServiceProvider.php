@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->bind(ClientRepositoryInterface::class, ClientRepository::class);
-        $this->app->bind(SpreadsheetInterface::class, XlsxRepository::class);
+        $this->app->bind(SpreadsheetInterface::class, WorksheetService::getRepositoryNameByDriver());
 
         WorksheetService::migrate([
             ClientDto::class
