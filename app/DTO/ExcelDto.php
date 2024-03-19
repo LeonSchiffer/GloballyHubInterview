@@ -2,9 +2,9 @@
 
 namespace App\DTO;
 
+use App\Repositories\Interfaces\SpreadsheetInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use PhpOffice\PhpSpreadsheet\Reader\Csv as ReaderCsv;
 
 abstract class ExcelDto
 {
@@ -13,23 +13,14 @@ abstract class ExcelDto
 
     public static function all(int $limit = null, int $page = null): LengthAwarePaginator
     {
-        $limit = $limit ?: 15;
-        $page = $page ?: 1;
-        $page = is_null($page) ? request()->query("page", 1) : $page;
-        $data = Collection::make();
-        $reader = new ReaderCsv();
-        $spreadsheet = $reader->load(static::getFilePath());
-        $active_sheet = $spreadsheet->getActiveSheet();
-        $clients = $active_sheet->toArray();
-        $clients = static::paginate($clients, $limit, $page);
-        foreach ($clients as $row) {
-            if (is_null($row[0]))
-                continue;
-            $data->push(static::fromRow($row));
-        }
+
+        $spreadsheet_repository = app()->make(SpreadsheetInterface::class);
+        $worksheet = $spreadsheet_repository->getWorksheet(static::getFilePath());
+        $clients = $worksheet->toArray();
+        $data = static::paginateData($clients, $limit, $page);
         return new LengthAwarePaginator(
             $data,
-            $active_sheet->getHighestRow(),
+            $worksheet->getHighestRow(),
             $limit,
             $page,
             [
@@ -38,12 +29,27 @@ abstract class ExcelDto
         );
     }
 
-    private static function paginate(array $rows,  int $limit, int $page)
+    private static function sliceForPagination(array $rows,  int $limit, int $page)
     {
         return array_slice(
             $rows,
             ($limit * $page) - $limit,
             $limit
         );
+    }
+
+    private static function paginateData($data, $limit, $page)
+    {
+        $limit = $limit ?: 15;
+        $page = $page ?: 1;
+        $page = is_null($page) ? request()->query("page", 1) : $page;
+        $paginated_data = Collection::make();
+        $clients = static::sliceForPagination($data, $limit, $page);
+        foreach ($clients as $row) {
+            if (is_null($row[0]))
+                continue;
+            $paginated_data->push(static::fromRow($row));
+        }
+        return $paginated_data;
     }
 }

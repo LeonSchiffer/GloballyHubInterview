@@ -5,6 +5,7 @@ namespace App\Repositories;
 use PhpOffice\PhpSpreadsheet\Reader\Csv as ReaderCsv;
 use PhpOffice\PhpSpreadsheet\Writer\Csv as WriterCsv;
 use App\Repositories\Interfaces\SpreadsheetInterface;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class CsvRepository implements SpreadsheetInterface
 {
@@ -25,8 +26,11 @@ class CsvRepository implements SpreadsheetInterface
         return true;
     }
 
-    public function getData()
+    public function getWorksheet(string $file_path): Worksheet
     {
-        
+        $reader = new ReaderCsv();
+        $spreadsheet = $reader->load($file_path);
+        $active_sheet = $spreadsheet->getActiveSheet();
+        return $active_sheet;
     }
 }
