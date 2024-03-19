@@ -29,6 +29,9 @@ class StoreClientRequest extends BaseRequest
         ];
     }
 
+    /**
+     * Custom messages for some validation
+     */
     public function messages(): array
     {
         return [
@@ -38,6 +41,9 @@ class StoreClientRequest extends BaseRequest
         ];
     }
 
+    /**
+     * Custom attribute name for some payloads
+     */
     public function attributes(): array
     {
         return [

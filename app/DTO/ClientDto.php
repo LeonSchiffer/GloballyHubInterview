@@ -2,36 +2,34 @@
 
 namespace App\DTO;
 
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 
-class ClientDto extends ExcelDto
+class ClientDto extends BaseExcelModel
 {
+    /**
+     * The eligible genders. Use in StoreClientRequest
+     * @see \App\Http\Requests\Api\Client\StoreClientRequest
+     */
     const GENDERS = [
         "Male",
         "Female",
         "Others",
     ];
 
+    /**
+     * The eligible preferred contact modes. Use in StoreClientRequest
+     * @see \App\Http\Requests\Api\Client\StoreClientRequest
+     */
     const PREFERRED_CONTACT_MODE = [
         "Phone",
         "Email"
     ];
 
-    private $excel_column_key_pair = [
-        "A" => "ulid",
-        "B" => "name",
-        "C" => "gender",
-        "D" => "phone",
-        "E" => "email",
-        "F" => "address",
-        "G" => "nationality",
-        "H" => "dob",
-        "I" => "education_background",
-        "J" => "preferred_contact_mode",
-        "K" => "created_at",
-    ];
-
+    /**
+     * This abstract method needs to be implemented by all classes that extends BaseExcelModel
+     * This is the name of the excel file that the data will be saved to
+     * @see BaseExcelModel
+     */
     public static function getFileName(): string
     {
         return "client";
@@ -53,6 +51,11 @@ class ClientDto extends ExcelDto
     {
     }
 
+    /**
+     * Create a new ClientDto object from an array
+     * Used in ClientController
+     * @see \App\Http\Controllers\Api\V1\Client\ClientController
+     */
     public static function fromArray(array $data)
     {
         return new self(
@@ -70,6 +73,10 @@ class ClientDto extends ExcelDto
         );
     }
 
+    /**
+     * Maps the elements in an array to its respective column in the CSV
+     * @return array The array with excel's column name as key and the value to be inserted as value
+     */
     public function toCsv(): array
     {
         return [
@@ -87,7 +94,11 @@ class ClientDto extends ExcelDto
         ];
     }
 
-    public static function fromRow(array $row)
+    /**
+     * Returns a new object of the following class from the excel row
+     * @return ClientDto
+     */
+    public static function fromRow(array $row): self
     {
         return new self(...$row);
     }

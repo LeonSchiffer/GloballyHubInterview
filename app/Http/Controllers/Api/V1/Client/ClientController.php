@@ -18,7 +18,7 @@ class ClientController extends Controller
 
     }
     /**
-     * Display a listing of the resource.
+     * Returns paginated client list
      */
     public function index()
     {
@@ -27,21 +27,9 @@ class ClientController extends Controller
             request()->query("page", 1)
         );
     }
-    // public function index()
-    // {
-    //     $reader = new Csv();
-    //     $spreadsheet = $reader->load(storage_path("/app/client.csv"));
-    //     $sheet = $spreadsheet->getActiveSheet();
-    //     $highest_row = $sheet->getHighestRow();
-    //     $sheet->insertNewRowBefore($highest_row+1);
-    //     $sheet->setCellValue("A" . $highest_row + 1, "ABC7");
-    //     // $sheet->setCellValue("A1", "ABC1");
-    //     $writer = new WriterCsv($spreadsheet);
-    //     $writer->save(storage_path("app/client.csv"));
-    // }
 
     /**
-     * Store a newly created resource in storage.
+     * Stores a new client
      */
     public function store(StoreClientRequest $request)
     {

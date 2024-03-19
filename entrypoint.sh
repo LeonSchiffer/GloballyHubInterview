@@ -12,6 +12,7 @@ fi
 php artisan optimize:clear
 # supervisord
 # nohup php artisan queue:work --daemon &
-php artisan serve --port=8000 --host=0.0.0.0 --env=.env --daemon
-npm run dev
+npm run build
+php artisan serve --port=8000 --host=0.0.0.0 --env=.env
+
 exec docker-php-entrypoint "$@"

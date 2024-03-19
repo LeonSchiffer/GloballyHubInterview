@@ -2,24 +2,29 @@
 
 namespace App\Services;
 
-use App\DTO\ExcelDto;
-use App\Exceptions\Excel\InvalidExcelDriver;
+use App\DTO\BaseExcelModel;
+use App\Exceptions\Excel\InvalidExcelDriverException;
 use App\Repositories\CsvRepository;
 use App\Repositories\XlsxRepository;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Reader\BaseReader;
-use PhpOffice\PhpSpreadsheet\Writer\BaseWriter;
 
+/**
+ *
+ */
 class WorksheetService
 {
-    /**
-     * Create a new class instance.
-     */
     public function __construct()
     {
 
     }
 
+    /**
+     * Add a new row to the excel file
+     * @param BaseReader $reader The base reader file which is implemented by Xlsx and Csv reader
+     * @param array $data The row to be added to the excel file
+     * @param string $file_path The full path of the file where the data is to be inserted
+     */
     public function insertRow(BaseReader $reader, array $data, string $file_path): Spreadsheet
     {
 
@@ -34,26 +39,30 @@ class WorksheetService
         return $spreadsheet;
     }
 
-    private function getStoragePath($file_name)
-    {
-        return storage_path("app/$file_name");
-    }
-
+    /**
+     * Migrates all the instance of BaseExcelModels it finds
+     * @see \App\Providers\AppServiceProvider
+     * @param array $excel_dto_classes
+     */
     public static function migrate(array $excel_dto_classes)
     {
         foreach ($excel_dto_classes as $excel_dto_class)
         {
-            /** @var ExcelDto $excel_dto_class */
+            /** @var BaseExcelModel $excel_dto_class */
             $excel_dto_class::migrateFile();
         }
     }
 
+    /**
+     * Get respective class according to driver in .env file
+     * @return string|InvalidExcelDriverException
+     */
     public static function getRepositoryNameByDriver()
     {
         return match (config("app.excel_driver")) {
             "csv" => CsvRepository::class,
             "xlsx" => XlsxRepository::class,
-            default => throw new InvalidExcelDriver
+            default => throw new InvalidExcelDriverException
         };
     }
 }

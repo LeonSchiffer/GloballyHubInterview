@@ -20,7 +20,6 @@ class XlsxRepository implements SpreadsheetInterface
         $reader = new ReaderXlsx();
         $file_path = $this->getFullFilePath($file_name);
         $spreadsheet = $this->worksheet_service->insertRow($reader, $data, $file_path);
-        // $sheet->setCellValue("A1", "ABC1");
         $writer = new WriterXlsx($spreadsheet);
         $writer->save($file_path);
         return true;
