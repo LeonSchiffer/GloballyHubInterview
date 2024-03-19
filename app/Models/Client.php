@@ -1,10 +1,10 @@
 <?php
 
-namespace App\DTO;
+namespace App\Models;
 
 use Illuminate\Support\Str;
 
-class ClientDto extends BaseExcelModel
+class Client extends BaseExcelModel
 {
     /**
      * The eligible genders. Use in StoreClientRequest
@@ -52,7 +52,7 @@ class ClientDto extends BaseExcelModel
     }
 
     /**
-     * Create a new ClientDto object from an array
+     * Create a new Client object from an array
      * Used in ClientController
      * @see \App\Http\Controllers\Api\V1\Client\ClientController
      */
@@ -96,7 +96,7 @@ class ClientDto extends BaseExcelModel
 
     /**
      * Returns a new object of the following class from the excel row
-     * @return ClientDto
+     * @return Client
      */
     public static function fromRow(array $row): self
     {

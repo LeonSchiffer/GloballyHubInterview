@@ -2,13 +2,13 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\DTO\ClientDto;
+use App\Models\Client;
 
 interface ClientRepositoryInterface
 {
     /**
      * Store clients data in the excel file
-     * @param ClientDto $client
+     * @param Client $client
      */
-    public function store(ClientDto $client);
+    public function store(Client $client);
 }

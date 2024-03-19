@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\DTO\ClientDto;
+use App\Models\Client;
 use App\Repositories\CsvRepository;
 use App\Repositories\ClientRepository;
 use Illuminate\Support\ServiceProvider;
@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SpreadsheetInterface::class, WorksheetService::getRepositoryNameByDriver());
 
         WorksheetService::migrate([
-            ClientDto::class
+            Client::class
         ]);
     }
 }

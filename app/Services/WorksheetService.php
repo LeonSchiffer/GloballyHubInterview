@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\DTO\BaseExcelModel;
+use App\Models\BaseExcelModel;
 use App\Exceptions\Excel\InvalidExcelDriverException;
 use App\Repositories\CsvRepository;
 use App\Repositories\XlsxRepository;
