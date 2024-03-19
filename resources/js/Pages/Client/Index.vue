@@ -91,7 +91,7 @@ export default {
             })
         },
         updateHandler(page) {
-            this.getClientList(per_page, page)
+            this.getClientList(this.per_page, page)
         },
         perPageChange(e) {
             var value = e.target.value
