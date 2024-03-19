@@ -10,8 +10,15 @@ It is recommended that you use Docker for best compatibility
 
 ## Production
 - The follwing project is hosted in https://globally.grgbishal.com
-- The swagger API documentation is hosted here: https://leonschiffer.github.io/GlobalyInterviewTestSwagger (You can call the API directly from there)
+- The swagger API documentation is hosted here: https://leonschiffer.github.io/GlobalyInterviewSwagger (You can call the API directly from there)
 - This project has **_deploy.yml_** in **_.github/workflows_** folder which will automatically deploy new changes from main branch to production server
+
+## How I deployed to my hosting:
+- I use Babal host's shared hosting to host my application
+- I created a sub-domain called globally.grgbishal.com
+- I then cloned the repository from git into the respective folder for that sub-domain
+- I then set the root directory of the sub-domain to the public folder of the project (Some hosting provider don't allow you to change the root directory, in those cases I create a .htaccess file in the root directory and have it redirect to public folder)
+- Also Babal host does not support node.js in its shared hosting plan, so I removed **_public/build_** from my **_.gitignore_** file and send the buid files through git
 
 ## External Packages Used
 - **phpoffice/phpspreadsheet**: A php package to handle reading and writing to excel files. I chose this package over others because it provided the most flexibility
@@ -593,7 +600,7 @@ Route::apiResource("clients", ClientController::class)->only(["index", "store"])
 - These routes are
 - index: to get list of client
 - store: to store a new client
-- View the API Swagger documentation here: https://leonschiffer.github.io/GloballyInterviewTestSwagger/
+- View the API Swagger documentation here: https://leonschiffer.github.io/GlobalyInterviewSwagger
 
 #### deploy.yml
 ```yml
@@ -622,8 +629,6 @@ jobs:
                     cd /home/grgbish1/globally.grgbishal.com
                     git pull origin main
                     composer install
-                    npm run build
-                    php artisan migrate --force
 ```
 - The following deploy.yml file in .github/workflows folder will automatically push new changes in the main branch to production server
 
