@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Client;
 
-use App\DTO\ClientDto;
+use App\Models\Client;
 use App\Http\Controllers\Controller;
 use PhpOffice\PhpSpreadsheet\Reader\Csv;
 use App\Http\Requests\Api\Client\StoreClientRequest;
@@ -22,7 +22,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return  ClientDto::all(
+        return  Client::all(
             request()->query("limit", 15),
             request()->query("page", 1)
         );
@@ -34,7 +34,7 @@ class ClientController extends Controller
     public function store(StoreClientRequest $request)
     {
         try {
-            $clientDto = ClientDto::fromArray($request->validated());
+            $clientDto = Client::fromArray($request->validated());
             $this->client->store($clientDto);
             return responseSuccess(message: "Client successfully saved!", status: 201);
         } catch (Exception $ex) {

@@ -1,6 +1,6 @@
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import "/resources/css/main.css";
 import { sendGet, sendPostRequest } from '@/Helpers/api';
 import { toastError, toastSuccess } from '@/Helpers/toast';
@@ -12,13 +12,20 @@ import VPagination from "@hennge/vue3-pagination";
     <Head title="Dashboard" />
     <GuestLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">List Clients</h2>
         </template>
 
-        <div class="py-12">
+        <div class="">
             <!-- <link rel="stylesheet" href="https://codepen.io/gymratpacks/pen/VKzBEp#0"> -->
             <!-- <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'> -->
             <!-- <link rel="stylesheet" href="css/main.css"> -->
+            <div>
+                <Link href="/clients/create" method="GET">
+                <button class="button-primary">Create</button>
+                </Link>
+            </div>
+            <br>
+            <br>
             <div class="per_page_container">
                 <label for="">Per Page</label>
                 <input type="number" min="1" v-model="per_page" @change="perPageChange">
@@ -53,12 +60,8 @@ import VPagination from "@hennge/vue3-pagination";
                     </tr>
                 </tbody>
             </table>
-            <VPagination
-            v-model="clients.current_page"
-            :pages="clients.last_page"
-            @update:modelValue="updateHandler"
-            active-color="#DCEDFF"
-            />
+            <VPagination v-model="clients.current_page" :pages="clients.last_page" @update:modelValue="updateHandler"
+                active-color="#DCEDFF" />
         </div>
     </GuestLayout>
 </template>
@@ -75,27 +78,26 @@ export default {
         this.getClientList(this.per_page)
     },
     methods: {
-        getClientList(per_page, page = 1)
-        {
+        getClientList(per_page, page = 1) {
             sendGet("clients", {
                 page,
                 limit: per_page
             })
-            .then(response => {
-                console.log(response)
-                this.clients = response.data
-            })
-            .catch(ex => {
-                console.log(ex.reponse)
-                toastError("Could not fetch client list")
-            })
+                .then(response => {
+                    console.log(response)
+                    this.clients = response.data
+                })
+                .catch(ex => {
+                    console.log(ex.reponse)
+                    toastError("Could not fetch client list")
+                })
         },
         updateHandler(page) {
             this.getClientList(this.per_page, page)
         },
         perPageChange(e) {
             var value = e.target.value
-            value = value <=0 ? 15 : value
+            value = value <= 0 ? 15 : value
             this.per_page = value
             this.getClientList(this.per_page, this.clients.current_page)
         }

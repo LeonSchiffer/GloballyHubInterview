@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\DTO\ClientDto;
+use App\Models\Client;
 use App\Repositories\Interfaces\ClientRepositoryInterface;
 use App\Repositories\Interfaces\SpreadsheetInterface;
 
@@ -13,8 +13,8 @@ class ClientRepository implements ClientRepositoryInterface
 
     }
 
-    public function store(ClientDto $client)
+    public function store(Client $client)
     {
-        $this->spreadsheet->addRow($client->toCsv(), ClientDto::getFileName());
+        $this->spreadsheet->addRow($client->toCsv(), Client::getFileName());
     }
 }

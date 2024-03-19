@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO;
+namespace App\Models;
 
 use App\Repositories\Interfaces\SpreadsheetInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -91,7 +91,7 @@ abstract class BaseExcelModel
 
     /**
      * Contains the logic for creating the excel file where data is stored. This method is invoked in AppServiceProvider
-     *      */
+    */
     public static function migrateFile()
     {
         /** @var SpreadsheetInterface @spreadsheet */
