@@ -79,11 +79,7 @@ import { toastError, toastSuccess } from '@/Helpers/toast';
                             <div class="form-input-container">
                                 <div class="form-input-container">
                                     <label for="nationality">Nationality:</label>
-                                    <select v-model="client.nationality" id="nationality">
-                                        <option value="Nepal">Nepal</option>
-                                        <option value="India">India</option>
-                                        <option value="China">China</option>
-                                    </select>
+                                    <input type="text" v-model="client.nationality" id="nationality" />
                                     <small>{{ validation_errors.nationality }}</small>
                                 </div>
                             </div>
