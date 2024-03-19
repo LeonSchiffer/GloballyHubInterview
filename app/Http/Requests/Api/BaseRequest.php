@@ -17,6 +17,7 @@ abstract class BaseRequest extends FormRequest
 
     /**
      * Handle a failed validation attempt.
+     * This abstract class was created to return a single string for each validation instead of array of strings
      *
      * @param  \Illuminate\Contracts\Validation\Validator $validator
      * @return void

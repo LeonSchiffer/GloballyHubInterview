@@ -1,0 +1,29 @@
+name: Deploy to Production
+
+on:
+    push:
+        branches: ["main"]
+
+jobs:
+    prod-deploy:
+        name: Deployment Process
+        runs-on: ubuntu-latest
+
+        steps:
+            # - name: Get latest code
+            #   uses: actions/checkout@v3
+            - name: Deployment via SSH
+              uses: appleboy/ssh-action@v1.0.3
+              with:
+                host: ${{ secrets.HOST }}
+                username: ${{ secrets.USERNAME }}
+                key: ${{ secrets.PRIVATE_KEY }}
+                port: ${{ secrets.PORT }}
+                script: |
+                    cd /home/grgbish1/globally.grgbishal.com
+                    git pull origin main
+                    composer install
+                    npm run build
+                    php artisan migrate --force
+
+
