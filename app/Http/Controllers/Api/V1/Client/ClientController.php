@@ -48,6 +48,7 @@ class ClientController extends Controller
         try {
             $clientDto = ClientDto::fromArray($request->validated());
             $this->client->store($clientDto);
+            return responseSuccess(message: "Client successfully saved!", status: 201);
         } catch (Exception $ex) {
             return responseError($ex->getMessage());
         }
