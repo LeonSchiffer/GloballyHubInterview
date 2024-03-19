@@ -52,6 +52,5 @@ class ClientController extends Controller
         } catch (Exception $ex) {
             return responseError($ex->getMessage());
         }
-
     }
 }

@@ -32,9 +32,9 @@ class ClientDto extends ExcelDto
         "K" => "created_at",
     ];
 
-    public static function getFilePath(): string
+    public static function getFileName(): string
     {
-        return storage_path("app/client.csv");
+        return "client";
     }
 
     public function __construct(
@@ -51,7 +51,6 @@ class ClientDto extends ExcelDto
         public string $created_at
     )
     {
-
     }
 
     public static function fromArray(array $data)

@@ -3,14 +3,13 @@
 namespace App\Repositories;
 
 use App\Services\WorksheetService;
-use Illuminate\Support\Facades\File;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use App\Repositories\Interfaces\SpreadsheetInterface;
-use PhpOffice\PhpSpreadsheet\Reader\Csv as ReaderCsv;
-use PhpOffice\PhpSpreadsheet\Writer\Csv as WriterCsv;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx as ReaderXlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx as WriterXlsx;
 
-class CsvRepository implements SpreadsheetInterface
+class XlsxRepository implements SpreadsheetInterface
 {
     public function __construct(private WorksheetService $worksheet_service)
     {
@@ -18,18 +17,18 @@ class CsvRepository implements SpreadsheetInterface
 
     public function addRow(array $data, string $file_name): bool
     {
-        $reader = new ReaderCsv();
+        $reader = new ReaderXlsx();
         $file_path = $this->getFullFilePath($file_name);
         $spreadsheet = $this->worksheet_service->insertRow($reader, $data, $file_path);
         // $sheet->setCellValue("A1", "ABC1");
-        $writer = new WriterCsv($spreadsheet);
+        $writer = new WriterXlsx($spreadsheet);
         $writer->save($file_path);
         return true;
     }
 
     public function getWorksheet(string $file_name): Worksheet
     {
-        $reader = new ReaderCsv();
+        $reader = new ReaderXlsx();
         $spreadsheet = $reader->load($this->getFullFilePath($file_name));
         $active_sheet = $spreadsheet->getActiveSheet();
         return $active_sheet;
@@ -37,7 +36,7 @@ class CsvRepository implements SpreadsheetInterface
 
     public function getFullFilePath($file_name): string
     {
-        $full_path = storage_path("/app/") . "$file_name" . ".csv";
+        $full_path = storage_path("/app/") . "$file_name" . ".xlsx";
         return $full_path;
     }
 
@@ -46,7 +45,7 @@ class CsvRepository implements SpreadsheetInterface
         if (file_exists($file_path))
             return false;
         $spread_sheet = new Spreadsheet();
-        $writer = new WriterCsv($spread_sheet);
+        $writer = new WriterXlsx($spread_sheet);
         $writer->save($file_path);
         return true;
     }
