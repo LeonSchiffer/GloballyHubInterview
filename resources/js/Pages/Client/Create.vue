@@ -8,10 +8,10 @@ import { toastError, toastSuccess } from '@/Helpers/toast';
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Create Client" />
     <GuestLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Create Client</h2>
         </template>
 
         <div class="py-12">

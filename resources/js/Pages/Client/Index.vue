@@ -9,7 +9,7 @@ import VPagination from "@hennge/vue3-pagination";
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="List Clients" />
     <GuestLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">List Clients</h2>
