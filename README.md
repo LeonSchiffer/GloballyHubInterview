@@ -284,6 +284,7 @@ php artisan stub:publish
 - We have SpreadsheetInterface.php which holds the necessary blueprint to create different type of Excel repository (CsvRepository.php and XlsxRepository.php) in this case
 - I have set up the code for xlsx driver in this project in the XlsxRepository.php, so try changing the **_EXCEL_DRIVER_** to xlsx in the .env file and see how it works (default value is **_csv_**)
 - In the future, if we needed to add more drivers, we could create a repository and have it implement the SpreadsheetInterface.php and write the necessary codes there
+- Althought the XlsxRepository.php was not part of the requirement, this was added just to show how the project could be maintained and scaled up in the future
 - Please read the PHPDoc in the SpreadsheetInterface.php to understand what each function does
 
 #### CsvRepository.php
