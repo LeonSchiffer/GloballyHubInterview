@@ -31,7 +31,7 @@ abstract class BaseRequest extends FormRequest
                 'message' => __("Invalid form data"),
                 'type' => 'validation',
                 'errors' => $this->dataResopnsewithKey($validator)
-            ], 433)
+            ], 422)
         );
     }
 
