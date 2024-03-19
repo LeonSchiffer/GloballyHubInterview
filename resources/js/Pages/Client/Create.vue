@@ -1,6 +1,6 @@
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import "/resources/css/main.css";
 import { sendPostRequest } from '@/Helpers/api';
 import { toastError, toastSuccess } from '@/Helpers/toast';
@@ -20,9 +20,13 @@ import { toastError, toastSuccess } from '@/Helpers/toast';
             <!-- <link rel="stylesheet" href="css/main.css"> -->
             <div class="row">
                 <div class="col-md-12">
-                    <form @submit="createClient">
-                        <h1> Sign Up </h1>
 
+                    <form @submit="createClient">
+                        <Link href="/clients" method="GET">
+                            <button class="button-primary">List</button>
+                        </Link>
+                        <br>
+                        <br>
                         <fieldset>
 
                             <legend><span class="number">1</span> Your Basic Info</legend>
