@@ -3,7 +3,7 @@ FROM php:8.2-fpm as php
 RUN docker-php-ext-install pdo_mysql sockets exif mysqli
 RUN docker-php-ext-enable mysqli
 
-RUN apt-get update && apt-get install -y supervisor libpng-dev libzip-dev nodejs npm
+RUN apt-get update && apt-get install -y supervisor libpng-dev libzip-dev
 
 RUN docker-php-ext-install gd zip
 
