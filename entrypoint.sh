@@ -9,8 +9,6 @@ else
     cp .env.example .env
 fi
 # php artisan migrate
-php artisan optimize:clear
-php artisan key:generate
 # supervisord
 # nohup php artisan queue:work --daemon &
 npm run build
